@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2 class="animate__animated animate__fadeInDown"><i class="fas fa-tasks me-2"></i>Task Management</h2>
+        <p class="lead animate__animated animate__fadeIn">Manage your tasks with priority-based scheduling</p>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card animate__animated animate__fadeInLeft">
+            <div class="card-header">
+                <h5><i class="fas fa-plus-circle me-2"></i>Add New Task</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Task Title</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-heading"></i></span>
+                            <input type="text" class="form-control" id="title" name="title" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="due_date" class="form-label">Due Date</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                                    <input type="date" class="form-control" id="due_date" name="due_date">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="due_time" class="form-label">Due Time</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-clock"></i></span>
+                                    <input type="time" class="form-control" id="due_time" name="due_time">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="priority" class="form-label">Priority</label>
+                        <select class="form-select" id="priority" name="priority">
+                            <option value="1">Low</option>
+                            <option value="2" selected>Medium</option>
+                            <option value="3">High</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-plus-circle me-1"></i>Add Task
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card animate__animated animate__fadeInRight">
+            <div class="card-header">
+                <h5><i class="fas fa-list me-2"></i>Your Tasks</h5>
+            </div>
+            <div class="card-body">
+                {% if tasks %}
+                <div class="list-group">
+                    {% for task in tasks %}
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{ task.title }}</h5>
+                            <small>
+                                {% if task.due_date %}
+                                Due: {{ task.due_date }} {% if task.due_time %}at {{ task.due_time }}{% endif %}
+                                {% else %}
+                                No due date
+                                {% endif %}
+                            </small>
+                        </div>
+                        <p class="mb-1">{{ task.description }}</p>
+                        <small>Priority: 
+                            {% if task.priority == 1 %}
+                                <span class="badge bg-secondary">Low</span>
+                            {% elif task.priority == 2 %}
+                                <span class="badge bg-info">Medium</span>
+                            {% else %}
+                                <span class="badge bg-danger">High</span>
+                            {% endif %}
+                            • Status: 
+                            {% if task.status == 'completed' %}
+                                <span class="badge bg-success">Completed</span>
+                            {% else %}
+                                <span class="badge bg-warning">Pending</span>
+                            {% endif %}
+                        </small>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-clipboard-list fa-3x text-muted mb-3"></i>
+                    <p class="text-muted">No tasks yet. Add a task to get started.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

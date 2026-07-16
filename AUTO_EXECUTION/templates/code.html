@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2 class="animate__animated animate__fadeInDown"><i class="fas fa-code me-2"></i>Code Execution & Generation</h2>
+        <p class="lead animate__animated animate__fadeIn">Write, execute, and generate code in multiple programming languages</p>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card animate__animated animate__fadeInUp">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="codeTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="execute-tab" data-bs-toggle="tab" data-bs-target="#execute" type="button" role="tab">
+                            <i class="fas fa-play me-1"></i>Execute Code
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="generate-tab" data-bs-toggle="tab" data-bs-target="#generate" type="button" role="tab">
+                            <i class="fas fa-magic me-1"></i>Generate Code
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="codeTabsContent">
+                    <!-- Execute Code Tab -->
+                    <div class="tab-pane fade show active" id="execute" role="tabpanel">
+                        <form method="POST">
+                            <div class="mb-3">
+                                <label for="language" class="form-label">Programming Language</label>
+                                <select class="form-select" id="language" name="language">
+                                    <option value="python">Python</option>
+                                    <option value="javascript">JavaScript</option>
+                                    <option value="java">Java</option>
+                                    <option value="c++">C++</option>
+                                    <option value="c#">C#</option>
+                                    <option value="php">PHP</option>
+                                    <option value="ruby">Ruby</option>
+                                    <option value="go">Go</option>
+                                    <option value="swift">Swift</option>
+                                    <option value="kotlin">Kotlin</option>
+                                    
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="code" class="form-label">Your Code</label>
+                                <textarea class="form-control" id="code" name="code" rows="10" required>{% if code %}{{ code }}{% endif %}</textarea>
+                            </div>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <button type="submit" class="btn btn-primary me-md-2">
+                                    <i class="fas fa-play me-1"></i>Execute Code
+                                </button>
+                                {% if output %}
+                                <button type="submit" name="download" value="true" class="btn btn-success">
+                                    <i class="fas fa-download me-1"></i>Download Output
+                                </button>
+                                {% endif %}
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Generate Code Tab -->
+                    <div class="tab-pane fade" id="generate" role="tabpanel">
+                        <form method="POST">
+                            <input type="hidden" name="generate_code" value="true">
+                            <div class="mb-3">
+                                <label for="code_prompt" class="form-label">Describe the code you want to generate:</label>
+                                <textarea class="form-control" id="code_prompt" name="code_prompt" rows="3" placeholder="e.g., Create a Python function to calculate factorial" required>{{ prompt or '' }}</textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="gen_language" class="form-label">Programming Language</label>
+                                <select class="form-select" id="gen_language" name="language">
+                                    <option value="python">Python</option>
+                                    <option value="javascript">JavaScript</option>
+                                    <option value="java">Java</option>
+                                    <option value="c++">C++</option>
+                                    <option value="c#">C#</option>
+                                    <option value="php">PHP</option>
+                                    <option value="ruby">Ruby</option>
+                                    <option value="go">Go</option>
+                                    <option value="swift">Swift</option>
+                                    <option value="kotlin">Kotlin</option>
+                                    <option value="html">html</option>
+                                    <option value="css">css</option>
+                                </select>
+                            </div>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <button type="submit" class="btn btn-primary me-md-2">
+                                    <i class="fas fa-magic me-1"></i>Generate Code
+                                </button>
+                                {% if generated_code %}
+                                <button type="submit" name="download" value="true" class="btn btn-success">
+                                    <i class="fas fa-download me-1"></i>Download Code
+                                </button>
+                                {% endif %}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if output or generated_code %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card animate__animated animate__fadeInUp">
+            <div class="card-header">
+                <h5><i class="fas fa-terminal me-2"></i>Output</h5>
+            </div>
+            <div class="card-body">
+                {% if output %}
+                <pre class="code-block">{{ output }}</pre>
+                {% endif %}
+                
+                {% if generated_code %}
+                <pre class="code-block">{{ generated_code }}</pre>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

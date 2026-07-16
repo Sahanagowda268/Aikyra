@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2 class="animate__animated animate__fadeInDown"><i class="fas fa-file-alt me-2"></i>Document Processing</h2>
+        <p class="lead animate__animated animate__fadeIn">Upload documents to extract text and read aloud</p>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card animate__animated animate__fadeInLeft">
+            <div class="card-header">
+                <h5><i class="fas fa-upload me-2"></i>Upload Document</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="file" class="form-label">Select document (TXT, PDF, DOC, DOCX, Images)</label>
+                        <input type="file" class="form-control" id="file" name="file" required>
+                        <div class="form-text">Supported formats: TXT, PDF, DOC, DOCX, PNG, JPG, JPEG, GIF</div>
+                    </div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="submit" class="btn btn-primary me-md-2">
+                            <i class="fas fa-file-import me-1"></i>Process Document
+                        </button>
+                        {% if extracted_text %}
+                        <button type="submit" name="read_aloud" value="true" class="btn btn-success">
+                            <i class="fas fa-volume-up me-1"></i>Read Aloud
+                        </button>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card animate__animated animate__fadeInRight">
+            <div class="card-header">
+                <h5><i class="fas fa-file-alt me-2"></i>Extracted Text</h5>
+            </div>
+            <div class="card-body">
+                {% if extracted_text %}
+                <div class="extracted-text">
+                    {{ extracted_text }}
+                </div>
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-file-upload fa-3x text-muted mb-3"></i>
+                    <p class="text-muted">No document processed yet. Upload a document to extract text.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

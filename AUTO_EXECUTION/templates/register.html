@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+        <div class="card animate__animated animate__fadeIn">
+            <div class="card-header text-center">
+                <h3><i class="fas fa-user-plus me-2"></i>Register</h3>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                    </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
+                            <div class="form-text">Must be at least 8 characters long.</div>
+                            <div id="password-error" class="text-danger small"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="confirm_password" class="form-label">Confirm Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                            </div>
+                            <div id="confirm-error" class="text-danger small"></div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100" onclick="return validatePasswords()">
+                            <i class="fas fa-user-plus me-2"></i>Register
+                        </button>
+
+                </form>
+                <div class="text-center mt-3">
+                    <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+function validatePasswords() {
+    let password = document.getElementById("password").value.trim();
+    let confirmPassword = document.getElementById("confirm_password").value.trim();
+    let passwordError = document.getElementById("password-error");
+    let confirmError = document.getElementById("confirm-error");
+    let valid = true;
+
+    // Clear previous errors
+    passwordError.textContent = "";
+    confirmError.textContent = "";
+
+    // Check length
+    if (password.length < 8) {
+        passwordError.textContent = "Password must be at least 8 characters long.";
+        valid = false;
+    }
+
+    // (Optional) Strong password check: at least 1 uppercase, 1 number, 1 special character
+    let strongRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])/;
+    if (!strongRegex.test(password)) {
+        passwordError.textContent = "Password must include uppercase, number, and special character.";
+        valid = false;
+    }
+
+    // Match check
+    if (password !== confirmPassword) {
+        confirmError.textContent = "Passwords do not match.";
+        valid = false;
+    }
+
+    return valid;
+}
+</script>
+{% endblock %}

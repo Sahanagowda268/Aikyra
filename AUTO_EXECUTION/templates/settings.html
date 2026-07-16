@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2 class="animate__animated animate__fadeInDown"><i class="fas fa-cog me-2"></i>Settings</h2>
+        <p class="lead animate__animated animate__fadeIn">Customize your application preferences</p>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6 mx-auto">
+        <div class="card animate__animated animate__fadeInUp">
+            <div class="card-header">
+                <h5><i class="fas fa-palette me-2"></i>Appearance Settings</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">Theme Preference</label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="dark_mode" name="dark_mode" {{ 'checked' if user.dark_mode else '' }}>
+                            <label class="form-check-label" for="dark_mode">
+                                {% if user.dark_mode %}
+                                    Dark Mode <i class="fas fa-moon ms-1"></i>
+                                {% else %}
+                                    Light Mode <i class="fas fa-sun ms-1"></i>
+                                {% endif %}
+                            </label>
+                        </div>
+                        <div class="form-text">Toggle between light and dark theme.</div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-1"></i>Save Settings
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card mt-4 animate__animated animate__fadeInUp">
+            <div class="card-header">
+                <h5><i class="fas fa-info-circle me-2"></i>Application Information</h5>
+            </div>
+            <div class="card-body">
+                <div class="row mb-2">
+                    <div class="col-sm-5">
+                        <strong>Version:</strong>
+                    </div>
+                    <div class="col-sm-7">
+                        2.0.0
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-sm-5">
+                        <strong>Powered by:</strong>
+                    </div>
+                    <div class="col-sm-7">
+                        Gemini AI
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <strong>Last Updated:</strong>
+                    </div>
+                    <div class="col-sm-7">
+                        {{ now.strftime('%Y-%m-%d') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2 class="animate__animated animate__fadeInDown"><i class="fas fa-user me-2"></i>Profile</h2>
+        <p class="lead animate__animated animate__fadeIn">Manage your profile information</p>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card animate__animated animate__fadeInLeft">
+            <div class="card-header">
+                <h5><i class="fas fa-user-circle me-2"></i>Profile Picture</h5>
+            </div>
+            <div class="card-body text-center">
+                <img src="{{ url_for('static', filename='images/profile_pics/' + user.profile_pic) }}" 
+                     class="profile-pic rounded-circle mb-3" 
+                     onerror="this.src='https://ui-avatars.com/api/?name={{ user.username }}&background=random&size=150'"
+                     alt="Profile Picture">
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="profile_pic" class="form-label">Change Profile Picture</label>
+                        <input type="file" class="form-control" id="profile_pic" name="profile_pic" accept="image/*">
+                        <div class="form-text">Supported formats: JPG, PNG, GIF</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-upload me-1"></i>Update Picture
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-8">
+        <div class="card animate__animated animate__fadeInRight">
+            <div class="card-header">
+                <h5><i class="fas fa-info-circle me-2"></i>User Information</h5>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <strong>Username:</strong>
+                    </div>
+                    <div class="col-sm-9">
+                        {{ user.username }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <strong>Email:</strong>
+                    </div>
+                    <div class="col-sm-9">
+                        {{ user.email }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <strong>Member Since:</strong>
+                    </div>
+                    <div class="col-sm-9">
+                        {{ user.created_at }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <strong>Theme:</strong>
+                    </div>
+                    <div class="col-sm-9">
+                        {% if user.dark_mode %}
+                            <span class="badge bg-dark">Dark Mode</span>
+                        {% else %}
+                            <span class="badge bg-light text-dark">Light Mode</span>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <hr>
+                
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a href="{{ url_for('settings') }}" class="btn btn-primary">
+                        <i class="fas fa-cog me-1"></i>Settings
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2 class="animate__animated animate__fadeInDown"><i class="fas fa-history me-2"></i>Code Execution History</h2>
+        <p class="lead animate__animated animate__fadeIn">View your past code executions and generations</p>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card animate__animated animate__fadeInUp">
+            <div class="card-header">
+                <h5><i class="fas fa-list me-2"></i>Your Code History</h5>
+            </div>
+            <div class="card-body">
+                {% if code_executions %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Language</th>
+                                <th>Code</th>
+                                <th>Output</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for code in code_executions %}
+                            <tr>
+                                <td>{{ code.executed_at }}</td>
+                                <td><span class="badge bg-info">{{ code.language|upper }}</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#code{{ code.id }}">
+                                        View Code
+                                    </button>
+                                    <div class="collapse" id="code{{ code.id }}">
+                                        <div class="card card-body mt-2">
+                                            <pre class="code-block">{{ code.code }}</pre>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    {% if code.output %}
+                                    <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#output{{ code.id }}">
+                                        View Output
+                                    </button>
+                                    <div class="collapse" id="output{{ code.id }}">
+                                        <div class="card card-body mt-2">
+                                            <pre class="code-block">{{ code.output }}</pre>
+                                        </div>
+                                    </div>
+                                    {% else %}
+                                    <span class="text-muted">No output</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-code fa-3x text-muted mb-3"></i>
+                    <p class="text-muted">No code execution history yet.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

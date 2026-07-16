@@ -1,0 +1,3 @@
+The provided code defines a function called `factorial`, but it does not call the function or print anything to the console.
+
+Therefore, if you execute this code as is, there will be **no output**.

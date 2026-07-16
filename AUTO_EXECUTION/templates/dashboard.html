@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="background-elements">
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <h1 class="display-4 animate__animated animate__fadeInDown">Welcome, {{ session.username }}!</h1>
+        <p class="lead animate__animated animate__fadeIn">Your AI Assistant is ready to help you with various tasks.</p>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-3 mb-4">
+        <div class="card feature-card animate__animated animate__fadeInUp gradient-bg">
+            <div class="card-body text-center">
+                <i class="fas fa-envelope feature-icon animate-icon"></i>
+                <h5 class="card-title">Email Composition</h5>
+                <p class="card-text">Compose and send emails with AI-generated content.</p>
+                <a href="{{ url_for('email_compose') }}" class="btn btn-primary">Go to Email</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card feature-card animate__animated animate__fadeInUp gradient-bg">
+            <div class="card-body text-center">
+                <i class="fas fa-calendar-alt feature-icon animate-icon"></i>
+                <h5 class="card-title">Calendar Scheduling</h5>
+                <p class="card-text">Schedule and manage your events with notifications.</p>
+                <a href="{{ url_for('calendar') }}" class="btn btn-primary">Go to Calendar</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card feature-card animate__animated animate__fadeInUp gradient-bg">
+            <div class="card-body text-center">
+                <i class="fas fa-code feature-icon animate-icon"></i>
+                <h5 class="card-title">Code Execution</h5>
+                <p class="card-text">Run and generate code in multiple languages.</p>
+                <a href="{{ url_for('code_executor') }}" class="btn btn-primary">Go to Code</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card feature-card animate__animated animate__fadeInUp gradient-bg">
+            <div class="card-body text-center">
+                <i class="fas fa-file-alt feature-icon animate-icon"></i>
+                <h5 class="card-title">Document Processing</h5>
+                <p class="card-text">Extract text from documents and read aloud.</p>
+                <a href="{{ url_for('document_processor') }}" class="btn btn-primary">Go to Documents</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card gradient-bg">
+            <div class="card-header">
+                <h5><i class="fas fa-history me-2"></i>Recent Code Executions</h5>
+            </div>
+            <div class="card-body">
+                {% if recent_code %}
+                <div class="list-group">
+                    {% for code in recent_code %}
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">{{ code.language|upper }} Code</h6>
+                            <small>{{ code.executed_at }}</small>
+                        </div>
+                        <p class="mb-1">{{ code.code[:100] }}{% if code.code|length > 100 %}...{% endif %}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p>No code executions yet.</p>
+                {% endif %}
+                <div class="text-center mt-3">
+                    <a href="{{ url_for('code_history') }}" class="btn btn-sm btn-outline-primary">View All</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card gradient-bg">
+            <div class="card-header">
+                <h5><i class="fas fa-tasks me-2"></i>Recent Tasks</h5>
+            </div>
+            <div class="card-body">
+                {% if recent_tasks %}
+                <div class="list-group">
+                    {% for task in recent_tasks %}
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">{{ task.title }}</h6>
+                            <small>Priority: 
+                                {% if task.priority == 1 %}Low
+                                {% elif task.priority == 2 %}Medium
+                                {% else %}High
+                                {% endif %}
+                            </small>
+                        </div>
+                        <p class="mb-1">{{ task.description[:100] }}{% if task.description|length > 100 %}...{% endif %}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p>No tasks yet.</p>
+                {% endif %}
+                <div class="text-center mt-3">
+                    <a href="{{ url_for('task_manager') }}" class="btn btn-sm btn-outline-primary">View All</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card gradient-bg">
+            <div class="card-header">
+                <h5><i class="fas fa-code me-2"></i>Code Generation</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('code_executor') }}">
+                    <div class="mb-3">
+                        <label for="code_prompt" class="form-label">Describe the code you want to generate:</label>
+                        <textarea class="form-control" id="code_prompt" name="code_prompt" rows="3" placeholder="e.g., Create a Python function to calculate factorial" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="language" class="form-label">Programming Language</label>
+                        <select class="form-select" id="language" name="language">
+                            <option value="python">Python</option>
+                            <option value="javascript">JavaScript</option>
+                            <option value="java">Java</option>
+                            <option value="c++">C++</option>
+                            <option value="c#">C#</option>
+                            <option value="php">PHP</option>
+                            <option value="ruby">Ruby</option>
+                            <option value="go">Go</option>
+                            <option value="swift">Swift</option>
+                            <option value="kotlin">Kotlin</option>
+                        </select>
+                    </div>
+                    <button type="submit" name="generate_code" value="true" class="btn btn-primary">Generate Code</button>
+                    <button type="submit" name="download" value="true" class="btn btn-success ms-2">Download Code</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
