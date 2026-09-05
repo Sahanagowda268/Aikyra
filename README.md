@@ -1,4 +1,4 @@
-# 🚀 Aikyra – AI-Powered Intelligent Automation Platform
+# 🚀 AI-Powered Intelligent Task Management & Productivity Platform
 
 Aikyra is an AI-powered intelligent automation platform developed using **Python** and **Flask**. It combines multiple productivity tools into a single web application, enabling users to manage tasks, interact with an AI chatbot, process documents, automate emails, perform OCR, execute code, and organize schedules efficiently.
 
